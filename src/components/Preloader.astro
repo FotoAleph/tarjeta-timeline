@@ -1,0 +1,390 @@
+---
+---
+<div id="preloader" class="preloader-container">
+	<div class="preloader-content">
+		<div class="envelope-wrapper">
+			<div class="envelope">
+				<!-- Envelope Flap (Top triangle) -->
+				<div class="envelope-flap"></div>
+				
+				<!-- Envelope Pocket (Bottom/Sides triangles) -->
+				<div class="envelope-pocket"></div>
+				
+				<!-- Invitation Card inside the envelope -->
+				<div class="envelope-card">
+					<div class="card-inner">
+						<span class="card-title">Mis 15 Años</span>
+						<div class="card-line"></div>
+						<span class="card-welcome">Bienvenidos</span>
+					</div>
+				</div>
+				
+				<!-- Envelope Wax Seal -->
+				<div class="envelope-seal">
+					<span>15</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="preloader-text-container">
+			<h1 class="preloader-title">Bienvenidos a mis 15 años</h1>
+			<div class="loading-bar-container">
+				<div class="loading-bar" id="preload-progress"></div>
+			</div>
+			<p class="preloader-subtitle">Cargando invitación...</p>
+		</div>
+	</div>
+</div>
+
+<style>
+	.preloader-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: radial-gradient(circle at center, #1b355a 0%, #071324 100%);
+		z-index: 9999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: opacity 1s cubic-bezier(0.645, 0.045, 0.355, 1), 
+					visibility 1s ease;
+		overflow: hidden;
+	}
+
+	.preloader-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 40px;
+	}
+
+	/* Envelope Floating Animation */
+	.envelope-wrapper {
+		perspective: 1000px;
+		animation: floatEnvelope 3s ease-in-out infinite alternate;
+	}
+
+	@keyframes floatEnvelope {
+		0% { transform: translateY(0) rotateX(5deg) rotateY(-5deg); }
+		100% { transform: translateY(-15px) rotateX(10deg) rotateY(5deg); }
+	}
+
+	/* 3D Envelope container */
+	.envelope {
+		position: relative;
+		width: 280px;
+		height: 180px;
+		background: linear-gradient(135deg, #0f2547 0%, #1c3d6d 100%);
+		border: 2px solid rgba(226, 232, 240, 0.4); /* Silver border */
+		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+					inset 0 0 20px rgba(255, 255, 255, 0.05);
+		border-radius: 4px;
+		transform-style: preserve-3d;
+	}
+
+	/* Flap of the envelope */
+	.envelope-flap {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-left: 140px solid transparent;
+		border-right: 140px solid transparent;
+		border-top: 100px solid #163664; /* Matching dark blue */
+		border-top-color: #1e457c; /* slightly lighter top flap */
+		transform-origin: top;
+		transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+		z-index: 4;
+		filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+	}
+
+	/* Inner flap border mimicking silver embossing */
+	.envelope-flap::after {
+		content: '';
+		position: absolute;
+		top: -100px;
+		left: -140px;
+		width: 0;
+		height: 0;
+		border-left: 140px solid transparent;
+		border-right: 140px solid transparent;
+		border-top: 98px solid transparent;
+		border-top-color: rgba(226, 232, 240, 0.2); /* silver overlay border */
+	}
+
+	/* Pocket of the envelope */
+	.envelope-pocket {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: 
+			/* Left flap side */
+			linear-gradient(30deg, transparent 49%, rgba(226, 232, 240, 0.3) 50%, #0d213f 51%) 0 100% / 50% 100% no-repeat,
+			/* Right flap side */
+			linear-gradient(-30deg, transparent 49%, rgba(226, 232, 240, 0.3) 50%, #0d213f 51%) 100% 100% / 50% 100% no-repeat,
+			/* Bottom flap triangle */
+			linear-gradient(to top, #0b1a33, #0f2547);
+		border-radius: 0 0 4px 4px;
+		z-index: 3;
+		box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	/* The invitation card inside the envelope */
+	.envelope-card {
+		position: absolute;
+		bottom: 10px;
+		left: 15px;
+		width: 250px;
+		height: 150px;
+		background: #ffffff;
+		border: 2px solid var(--color-silver-300);
+		box-shadow: inset 0 0 15px rgba(203, 213, 225, 0.2);
+		border-radius: 4px;
+		z-index: 2;
+		transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 15px;
+		transform: translateY(0);
+	}
+
+	.card-inner {
+		border: 1px solid rgba(15, 37, 71, 0.2);
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 10px;
+		position: relative;
+	}
+
+	/* Silver border details on the card */
+	.card-inner::before {
+		content: '';
+		position: absolute;
+		top: 2px; left: 2px; right: 2px; bottom: 2px;
+		border: 1px solid #cbd5e1; /* Silver detail line */
+	}
+
+	.card-title {
+		font-family: var(--font-heading);
+		font-size: 1.1rem;
+		color: var(--color-text-dark);
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		font-weight: 700;
+	}
+
+	.card-line {
+		width: 40px;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, var(--color-silver-400), transparent);
+		margin: 8px 0;
+	}
+
+	.card-welcome {
+		font-family: var(--font-accent);
+		font-size: 2.2rem;
+		color: #1e3a8a;
+		line-height: 1;
+	}
+
+	/* Silver wax seal */
+	.envelope-seal {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -5%);
+		width: 48px;
+		height: 48px;
+		background: radial-gradient(circle at 35% 35%, #f1f5f9 0%, #cbd5e1 55%, #94a3b8 100%); /* Silver metallic circle */
+		border: 2px dashed rgba(255, 255, 255, 0.4);
+		border-radius: 50%;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3),
+					inset 0 2px 4px rgba(255, 255, 255, 0.6);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 5;
+		cursor: pointer;
+		transition: all 0.5s ease;
+	}
+
+	.envelope-seal span {
+		font-family: var(--font-heading);
+		color: var(--color-text-dark);
+		font-weight: 800;
+		font-size: 1.1rem;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+	}
+
+	/* Preloader Text */
+	.preloader-text-container {
+		text-align: center;
+		color: var(--color-silver-100);
+	}
+
+	.preloader-title {
+		font-family: var(--font-heading);
+		font-size: 1.8rem;
+		color: #ffffff;
+		font-weight: 400;
+		letter-spacing: 1px;
+		margin-bottom: 20px;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+		opacity: 0;
+		transform: translateY(15px);
+		animation: fadeInUp 0.8s ease forwards 0.2s;
+	}
+
+	.loading-bar-container {
+		width: 220px;
+		height: 3px;
+		background: rgba(226, 232, 240, 0.15); /* Translucent silver track */
+		border-radius: 2px;
+		margin: 0 auto 12px auto;
+		overflow: hidden;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+	}
+
+	.loading-bar {
+		width: 0%;
+		height: 100%;
+		background: linear-gradient(90deg, #cbd5e1 0%, #ffffff 50%, #cbd5e1 100%); /* Silver metallic glow */
+		box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+		border-radius: 2px;
+		transition: width 0.3s ease;
+	}
+
+	.preloader-subtitle {
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		color: var(--color-silver-300);
+		opacity: 0.8;
+	}
+
+	@keyframes fadeInUp {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* OPENED ENVELOPE STATES */
+	.opened .envelope-flap {
+		transform: rotateX(180deg);
+		z-index: 1; /* Fold back behind card */
+		filter: none;
+	}
+
+	.opened .envelope-card {
+		transform: translateY(-90px);
+		z-index: 3; /* Slide up in front of flap */
+	}
+
+	.opened .envelope-seal {
+		opacity: 0;
+		transform: translate(-50%, 40%) scale(0.5);
+		pointer-events: none;
+	}
+
+	/* HIDE PRELOADER STATE */
+	.preloader-fade-out {
+		opacity: 0;
+		visibility: hidden;
+	}
+</style>
+
+<script>
+	const imagesToPreload = [
+		'/assets/hero_bg.jpg',
+		'/assets/gallery_girl.jpg',
+		'/assets/gallery_tiara.jpg',
+		'/assets/gallery_cake.jpg'
+	];
+
+	let loadedCount = 0;
+	const preloader = document.getElementById('preloader');
+	const progressBar = document.getElementById('preload-progress');
+	const envelope = document.querySelector('.envelope');
+
+	const updateProgress = () => {
+		loadedCount++;
+		const percentage = Math.round((loadedCount / imagesToPreload.length) * 100);
+		if (progressBar) {
+			progressBar.style.width = `${percentage}%`;
+		}
+
+		if (loadedCount >= imagesToPreload.length) {
+			triggerEntranceAnimation();
+		}
+	};
+
+	const triggerEntranceAnimation = () => {
+		// Ensure minimum duration for aesthetics
+		setTimeout(() => {
+			// 1. Open Envelope
+			if (envelope) {
+				envelope.classList.add('opened');
+			}
+
+			// 2. Wait for card to slide out, then fade preloader
+			setTimeout(() => {
+				if (preloader) {
+					preloader.classList.add('preloader-fade-out');
+					
+					// 3. Remove preloader after transition completes
+					setTimeout(() => {
+						preloader.style.display = 'none';
+						// Dispatch custom event that assets are loaded and website is ready
+						document.dispatchEvent(new CustomEvent('website-ready'));
+					}, 1000);
+				}
+			}, 1800); // Wait for open & slide animations
+		}, 1000); // Initial hold so loader feels intentional
+	};
+
+	// Preload logic
+	const initPreloader = () => {
+		if (imagesToPreload.length === 0) {
+			triggerEntranceAnimation();
+			return;
+		}
+
+		// Fallback timeout: If assets take too long (e.g. slow network), proceed anyway after 6 seconds
+		const fallbackTimeout = setTimeout(() => {
+			if (loadedCount < imagesToPreload.length) {
+				console.log("Preloader: fallback timeout triggered.");
+				loadedCount = imagesToPreload.length;
+				if (progressBar) progressBar.style.width = '100%';
+				triggerEntranceAnimation();
+			}
+		}, 6000);
+
+		imagesToPreload.forEach(src => {
+			const img = new Image();
+			img.src = src;
+			img.onload = () => {
+				updateProgress();
+			};
+			img.onerror = () => {
+				console.error(`Error loading image: ${src}`);
+				// Count as loaded anyway to not lock screen
+				updateProgress();
+			};
+		});
+	};
+
+	// Start preloading
+	initPreloader();
+</script>

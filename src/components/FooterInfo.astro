@@ -1,0 +1,700 @@
+---
+---
+<section id="details-rsvp" class="footer-info-section">
+	<div class="info-container">
+		
+		<!-- Details Section -->
+		<div class="details-grid">
+			
+			<!-- Card 1: Ubicación -->
+			<div class="details-card info-animate">
+				<div class="card-icon-wrapper">
+					<svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+						<circle cx="12" cy="10" r="3"></circle>
+					</svg>
+				</div>
+				<h3>Ubicación</h3>
+				<span class="card-main-val">Salón Cristal Palace</span>
+				<p>Avenida de los Príncipes #456, Bosques de la Loma</p>
+				<a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="card-action-btn">
+					<span>Ver en Google Maps</span>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon">
+						<line x1="5" y1="12" x2="19" y2="12"></line>
+						<polyline points="12 5 19 12 12 19"></polyline>
+					</svg>
+				</a>
+			</div>
+			
+			<!-- Card 2: Vestimenta -->
+			<div class="details-card info-animate">
+				<div class="card-icon-wrapper">
+					<svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+					</svg>
+				</div>
+				<h3>Código de Traje</h3>
+				<span class="card-main-val">Formal / Rigurosa Etiqueta</span>
+				<p>Hombres de traje oscuro formal y mujeres de vestido largo.</p>
+				<div class="dress-indicators">
+					<div class="dress-item">
+						<span class="dress-label">Traje</span>
+					</div>
+					<div class="dress-item">
+						<span class="dress-label">Vestido</span>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Card 3: Regalos -->
+			<div class="details-card info-animate">
+				<div class="card-icon-wrapper">
+					<svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+						<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+						<polyline points="22,6 12,13 2,6"></polyline>
+					</svg>
+				</div>
+				<h3>Lluvia de Sobres</h3>
+				<span class="card-main-val">El regalo es en Sobre</span>
+				<p>Tu asistencia es nuestro mayor regalo. Pero si deseas hacernos un obsequio, dispondremos de un cofre para recibir sobres en la entrada.</p>
+			</div>
+			
+		</div>
+		
+		<!-- RSVP Card Section -->
+		<div class="rsvp-wrapper info-animate" id="rsvp">
+			<div class="rsvp-card-container">
+				<div class="rsvp-bg-glow"></div>
+				
+				<div class="rsvp-card-content">
+					<span class="rsvp-decor-star">✦</span>
+					<h2>Confirmar Asistencia</h2>
+					<p class="rsvp-desc">Por favor, compártenos tu respuesta para poder esperarte con el mejor de los cariños antes del 30 de Septiembre de 2026.</p>
+					
+					<form id="rsvp-form" class="rsvp-form">
+						<div class="form-input-group">
+							<input type="text" id="guest-name" name="name" required placeholder=" " />
+							<label for="guest-name">Tu Nombre Completo</label>
+						</div>
+						
+						<div class="form-row">
+							<div class="form-input-group">
+								<select id="guest-attendance" name="attendance" required>
+									<option value="" disabled selected hidden></option>
+									<option value="yes">Sí, asistiré con gusto</option>
+									<option value="no">Lamentablemente no podré asistir</option>
+								</select>
+								<label for="guest-attendance">¿Confirmas tu asistencia?</label>
+							</div>
+							
+							<div class="form-input-group" id="companions-input-container">
+								<select id="guest-companions" name="companions">
+									<option value="0">Solo yo</option>
+									<option value="1">1 Acompañante</option>
+									<option value="2">2 Acompañantes</option>
+									<option value="3">3 Acompañantes</option>
+								</select>
+								<label for="guest-companions">Número de Acompañantes</label>
+							</div>
+						</div>
+						
+						<div class="form-input-group">
+							<textarea id="guest-message" name="message" placeholder=" " rows="3"></textarea>
+							<label for="guest-message">Mensaje para Victoria o alergias alimentarias (Opcional)</label>
+						</div>
+						
+						<button type="submit" class="submit-rsvp-btn">
+							<span>Enviar Invitación</span>
+							<div class="btn-ripple"></div>
+						</button>
+					</form>
+					
+					<!-- Success Message Panel -->
+					<div id="rsvp-success-panel" class="success-panel">
+						<div class="success-stars">✦ ✦ ✦</div>
+						<h3>¡Confirmación Enviada!</h3>
+						<p>Muchas gracias por registrar tu respuesta. Tu cariño y buenos deseos ya han sido recibidos.</p>
+						<button type="button" id="reset-rsvp-btn" class="reset-btn">Regresar al Formulario</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Elegant Signature Footer -->
+		<footer class="footer-signature">
+			<span class="footer-calligraphy">Victoria</span>
+			<span class="footer-tagline">Mis Quince Años</span>
+			<div class="footer-divider"></div>
+			<p class="footer-copy">© 2026 Diseñado con amor para un momento inolvidable.</p>
+		</footer>
+		
+	</div>
+</section>
+
+<style>
+	.footer-info-section {
+		padding: 120px 0 60px 0;
+		background: linear-gradient(180deg, var(--color-bg-light) 0%, var(--color-bg-alt) 100%);
+		position: relative;
+		width: 100%;
+		z-index: 10;
+	}
+
+	.info-container {
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: 0 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 80px;
+	}
+
+	/* Details Cards Grid */
+	.details-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 30px;
+	}
+
+	.details-card {
+		background: rgba(255, 255, 255, 0.7);
+		border: 1.5px solid rgba(226, 232, 240, 0.8);
+		border-radius: 20px;
+		padding: 40px 30px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		box-shadow: var(--shadow-metallic);
+		transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+	}
+
+	.details-card:hover {
+		transform: translateY(-8px);
+		border-color: rgba(96, 165, 250, 0.4);
+		box-shadow: 0 20px 40px rgba(15, 37, 71, 0.08);
+	}
+
+	.card-icon-wrapper {
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		background: rgba(30, 64, 175, 0.06);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 25px;
+		color: var(--color-text-dark);
+		border: 1px solid rgba(30, 64, 175, 0.15);
+	}
+
+	.card-icon {
+		width: 28px;
+		height: 28px;
+	}
+
+	.details-card h3 {
+		font-family: var(--font-heading);
+		font-size: 1.4rem;
+		color: var(--color-text-dark);
+		margin-bottom: 15px;
+		font-weight: 600;
+	}
+
+	.card-main-val {
+		font-family: var(--font-body);
+		font-weight: 700;
+		color: #1e40af;
+		font-size: 1rem;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		margin-bottom: 10px;
+	}
+
+	.details-card p {
+		font-family: var(--font-body);
+		font-size: 0.9rem;
+		line-height: 1.5;
+		color: var(--color-silver-600);
+		margin-bottom: 20px;
+	}
+
+	/* Map button */
+	.card-action-btn {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		text-decoration: none;
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: #1e40af;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		margin-top: auto;
+		border-bottom: 1.5px solid rgba(30, 64, 175, 0.3);
+		padding-bottom: 4px;
+		transition: all 0.3s ease;
+	}
+
+	.card-action-btn:hover {
+		color: var(--color-blue-900);
+		border-color: var(--color-blue-900);
+	}
+
+	.arrow-icon {
+		width: 14px;
+		height: 14px;
+		transition: transform 0.3s ease;
+	}
+
+	.card-action-btn:hover .arrow-icon {
+		transform: translateX(4px);
+	}
+
+	/* Dress indicators */
+	.dress-indicators {
+		display: flex;
+		gap: 15px;
+		margin-top: auto;
+	}
+
+	.dress-item {
+		background: rgba(148, 163, 184, 0.1);
+		border: 1px solid rgba(148, 163, 184, 0.25);
+		padding: 6px 14px;
+		border-radius: 12px;
+	}
+
+	.dress-label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: var(--color-silver-600);
+	}
+
+	/* RSVP Card */
+	.rsvp-wrapper {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.rsvp-card-container {
+		position: relative;
+		max-width: 650px;
+		width: 100%;
+		background: rgba(255, 255, 255, 0.65);
+		border: 1.5px solid rgba(226, 232, 240, 0.9);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-radius: 28px;
+		padding: 50px 40px;
+		box-shadow: var(--shadow-deep);
+		overflow: hidden;
+	}
+
+	.rsvp-bg-glow {
+		position: absolute;
+		top: -40%;
+		left: -40%;
+		width: 180%;
+		height: 180%;
+		background: radial-gradient(circle, rgba(186, 230, 253, 0.18) 0%, rgba(255,255,255,0) 70%);
+		pointer-events: none;
+	}
+
+	.rsvp-card-content {
+		position: relative;
+		z-index: 2;
+		text-align: center;
+	}
+
+	.rsvp-decor-star {
+		font-size: 1.2rem;
+		color: var(--color-blue-600);
+		text-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+	}
+
+	.rsvp-card-content h2 {
+		font-family: var(--font-heading);
+		font-size: 2.2rem;
+		color: var(--color-text-dark);
+		margin: 10px 0 15px 0;
+	}
+
+	.rsvp-desc {
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		color: var(--color-silver-600);
+		line-height: 1.6;
+		max-width: 500px;
+		margin: 0 auto 35px auto;
+	}
+
+	/* Elegant floating labels form */
+	.rsvp-form {
+		display: flex;
+		flex-direction: column;
+		gap: 25px;
+		text-align: left;
+		transition: opacity 0.4s ease, transform 0.4s ease;
+	}
+
+	.form-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+	}
+
+	.form-input-group {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.form-input-group input, 
+	.form-input-group select, 
+	.form-input-group textarea {
+		width: 100%;
+		padding: 16px;
+		background: rgba(255, 255, 255, 0.5);
+		border: 1.5px solid rgba(203, 213, 225, 0.6);
+		border-radius: 12px;
+		outline: none;
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		color: var(--color-text-dark);
+		transition: all 0.3s ease;
+	}
+
+	.form-input-group textarea {
+		resize: none;
+	}
+
+	.form-input-group label {
+		position: absolute;
+		left: 16px;
+		top: 16px;
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		color: var(--color-silver-600);
+		pointer-events: none;
+		transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+		transform-origin: left top;
+	}
+
+	/* Select specific fix for label */
+	.form-input-group select:focus ~ label,
+	.form-input-group select:not(:placeholder-shown) ~ label,
+	.form-input-group select:valid ~ label {
+		transform: translateY(-28px) scale(0.85);
+		color: var(--color-blue-600);
+		font-weight: 600;
+	}
+
+	/* Inputs and textareas label transitions */
+	.form-input-group input:focus ~ label,
+	.form-input-group input:not(:placeholder-shown) ~ label,
+	.form-input-group textarea:focus ~ label,
+	.form-input-group textarea:not(:placeholder-shown) ~ label {
+		transform: translateY(-28px) scale(0.85);
+		color: var(--color-blue-600);
+		font-weight: 600;
+	}
+
+	.form-input-group input:focus, 
+	.form-input-group select:focus, 
+	.form-input-group textarea:focus {
+		border-color: rgba(59, 130, 246, 0.8);
+		background: #ffffff;
+		box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+	}
+
+	/* Submit Button */
+	.submit-rsvp-btn {
+		width: 100%;
+		padding: 16px;
+		border-radius: 12px;
+		border: none;
+		background: var(--gradient-blue-metallic);
+		color: #ffffff;
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		font-weight: 700;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+		box-shadow: 0 10px 25px rgba(30, 58, 138, 0.25);
+		transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.submit-rsvp-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 14px 30px rgba(30, 58, 138, 0.35);
+	}
+
+	.submit-rsvp-btn:active {
+		transform: translateY(1px);
+	}
+
+	/* Success Panel Overlay */
+	.success-panel {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #ffffff;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 40px;
+		box-sizing: border-box;
+		border-radius: 28px;
+		opacity: 0;
+		visibility: hidden;
+		transform: scale(0.95);
+		transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		z-index: 5;
+	}
+
+	.success-panel.active {
+		opacity: 1;
+		visibility: visible;
+		transform: scale(1);
+	}
+
+	.success-stars {
+		font-size: 1.5rem;
+		color: var(--color-blue-600);
+		margin-bottom: 20px;
+		letter-spacing: 8px;
+	}
+
+	.success-panel h3 {
+		font-family: var(--font-heading);
+		font-size: 1.8rem;
+		color: var(--color-text-dark);
+		margin-bottom: 15px;
+	}
+
+	.success-panel p {
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		line-height: 1.6;
+		color: var(--color-silver-600);
+		max-width: 400px;
+		margin-bottom: 30px;
+	}
+
+	.reset-btn {
+		background: transparent;
+		border: 1.5px solid var(--color-silver-400);
+		color: var(--color-silver-600);
+		padding: 12px 24px;
+		border-radius: 10px;
+		font-family: var(--font-body);
+		font-weight: 600;
+		font-size: 0.85rem;
+		cursor: pointer;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		transition: all 0.3s ease;
+	}
+
+	.reset-btn:hover {
+		border-color: var(--color-text-dark);
+		color: var(--color-text-dark);
+	}
+
+	/* Confetti Container */
+	.confetti-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 6;
+		overflow: hidden;
+	}
+
+	.confetti-particle {
+		position: absolute;
+		width: 8px;
+		height: 8px;
+		border-radius: 2px;
+		will-change: transform, opacity;
+	}
+
+	/* Signature Footer */
+	.footer-signature {
+		text-align: center;
+		margin-top: 40px;
+		border-top: 1px solid rgba(148, 163, 184, 0.2);
+		padding-top: 60px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.footer-calligraphy {
+		font-family: var(--font-accent);
+		font-size: 4rem;
+		color: var(--color-text-dark);
+		line-height: 0.8;
+		margin-bottom: 10px;
+	}
+
+	.footer-tagline {
+		font-family: var(--font-heading);
+		font-size: 1.1rem;
+		text-transform: uppercase;
+		letter-spacing: 5px;
+		color: var(--color-silver-400);
+		font-weight: 300;
+		margin-bottom: 25px;
+	}
+
+	.footer-divider {
+		width: 50px;
+		height: 1.5px;
+		background: var(--color-silver-300);
+		margin-bottom: 25px;
+	}
+
+	.footer-copy {
+		font-family: var(--font-body);
+		font-size: 0.75rem;
+		letter-spacing: 1px;
+		color: var(--color-silver-400);
+	}
+
+	/* Responsive layouts */
+	@media (max-width: 600px) {
+		.rsvp-card-container {
+			padding: 40px 20px;
+		}
+		
+		.form-row {
+			grid-template-columns: 1fr;
+			gap: 25px;
+		}
+
+		.form-input-group select {
+			padding: 16px;
+		}
+
+		.footer-calligraphy {
+			font-size: 3.2rem;
+		}
+
+		.footer-info-section {
+			padding: 80px 0 40px 0;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const rsvpForm = document.getElementById('rsvp-form') as HTMLFormElement;
+		const attendanceSelect = document.getElementById('guest-attendance') as HTMLSelectElement;
+		const companionsContainer = document.getElementById('companions-input-container');
+		const successPanel = document.getElementById('rsvp-success-panel');
+		const resetBtn = document.getElementById('reset-rsvp-btn');
+		const rsvpCard = document.querySelector('.rsvp-card-container');
+
+		if (!rsvpForm || !attendanceSelect || !companionsContainer || !successPanel || !resetBtn || !rsvpCard) return;
+
+		// Toggle companions selection depending on attendance choice
+		attendanceSelect.addEventListener('change', () => {
+			if (attendanceSelect.value === 'no') {
+				companionsContainer.style.opacity = '0.3';
+				companionsContainer.style.pointerEvents = 'none';
+				const companionsSelect = document.getElementById('guest-companions') as HTMLSelectElement;
+				if (companionsSelect) companionsSelect.value = '0';
+			} else {
+				companionsContainer.style.opacity = '1';
+				companionsContainer.style.pointerEvents = 'auto';
+			}
+		});
+
+		// Submit Confetti Animation
+		const triggerConfetti = () => {
+			const confettiContainer = document.createElement('div');
+			confettiContainer.classList.add('confetti-container');
+			rsvpCard.appendChild(confettiContainer);
+
+			const colors = [
+				'#3b82f6', // blue
+				'#60a5fa', // light blue
+				'#cbd5e1', // silver
+				'#ffffff', // white
+				'#1e3a8a'  // metallic dark blue
+			];
+
+			const particleCount = 60;
+
+			for (let i = 0; i < particleCount; i++) {
+				const particle = document.createElement('div');
+				particle.classList.add('confetti-particle');
+				
+				// Random settings
+				const color = colors[Math.floor(Math.random() * colors.length)];
+				const size = Math.random() * 6 + 4; // 4px to 10px
+				const startX = Math.random() * 100; // 0% to 100% width
+				const delay = Math.random() * 0.5;
+				const duration = Math.random() * 2 + 1.5; // 1.5s to 3.5s
+				const angle = Math.random() * 360;
+
+				particle.style.background = color;
+				particle.style.width = `${size}px`;
+				particle.style.height = `${size}px`;
+				particle.style.left = `${startX}%`;
+				particle.style.top = `-20px`; // start slightly above container
+				particle.style.opacity = (Math.random() * 0.6 + 0.4).toString();
+				
+				confettiContainer.appendChild(particle);
+
+				// Animate falling, swaying, and spinning
+				particle.animate([
+					{ transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+					{ transform: `translate(${(Math.random() * 80 - 40)}px, ${rsvpCard.clientHeight + 40}px) rotate(${angle}deg)`, opacity: 0 }
+				], {
+					duration: duration * 1000,
+					delay: delay * 1000,
+					easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)',
+					fill: 'forwards'
+				});
+			}
+
+			// Clean up container after animations complete
+			setTimeout(() => {
+				confettiContainer.remove();
+			}, 5000);
+		};
+
+		// Submit Handler
+		rsvpForm.addEventListener('submit', (e) => {
+			e.preventDefault();
+
+			// In a real application, you would send this to a backend or Google Sheet
+			// We will simulate it and display the premium success window
+			successPanel.classList.add('active');
+			triggerConfetti();
+		});
+
+		// Reset Handler
+		resetBtn.addEventListener('click', () => {
+			successPanel.classList.remove('active');
+			rsvpForm.reset();
+			companionsContainer.style.opacity = '1';
+			companionsContainer.style.pointerEvents = 'auto';
+		});
+	});
+</script>

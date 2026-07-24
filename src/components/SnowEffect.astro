@@ -1,0 +1,124 @@
+---
+---
+<canvas id="snow-canvas"></canvas>
+
+<style>
+	#snow-canvas {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 2; /* Just behind overlay text/components but above background */
+		pointer-events: none;
+	}
+</style>
+
+<script>
+	class Snowfall {
+		canvas: HTMLCanvasElement;
+		ctx: CanvasRenderingContext2D;
+		width: number = 0;
+		height: number = 0;
+		particles: Array<{x: number, y: number, r: number, d: number, speed: number, drift: number}> = [];
+		maxParticles: number = 60; // Very light snow
+		animationFrameId: number | null = null;
+
+		constructor(canvas: HTMLCanvasElement) {
+			this.canvas = canvas;
+			this.ctx = canvas.getContext('2d')!;
+			this.resize();
+			this.init();
+			window.addEventListener('resize', () => this.resize());
+			this.animate();
+		}
+
+		resize() {
+			this.width = window.innerWidth;
+			this.height = window.innerHeight;
+			this.canvas.width = this.width;
+			this.canvas.height = this.height;
+		}
+
+		init() {
+			this.particles = [];
+			for (let i = 0; i < this.maxParticles; i++) {
+				this.particles.push({
+					x: Math.random() * this.width,
+					y: Math.random() * this.height,
+					r: Math.random() * 1.8 + 0.8, // small flakes: 0.8px to 2.6px
+					d: Math.random() * this.maxParticles, // density factor
+					speed: Math.random() * 0.4 + 0.15, // slow fall
+					drift: Math.random() * 0.15 - 0.07 // slight drift
+				});
+			}
+		}
+
+		animate() {
+			this.ctx.clearRect(0, 0, this.width, this.height);
+			
+			// Draw particles
+			// Using translucent silver-blue/white colors for flakes
+			this.ctx.fillStyle = 'rgba(226, 232, 240, 0.55)'; 
+			this.ctx.beginPath();
+			for (let i = 0; i < this.maxParticles; i++) {
+				const p = this.particles[i];
+				this.ctx.moveTo(p.x, p.y);
+				this.ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+			}
+			this.ctx.fill();
+			
+			this.update();
+			this.animationFrameId = requestAnimationFrame(() => this.animate());
+		}
+
+		update() {
+			for (let i = 0; i < this.maxParticles; i++) {
+				const p = this.particles[i];
+				
+				// Update coordinates
+				p.y += p.speed;
+				p.x += Math.sin(p.d) * 0.15 + p.drift;
+				
+				// Keep density scrolling
+				p.d += 0.007;
+				
+				// Reset particle if it goes off screen
+				if (p.y > this.height) {
+					this.particles[i] = {
+						x: Math.random() * this.width,
+						y: -10,
+						r: p.r,
+						d: p.d,
+						speed: p.speed,
+						drift: p.drift
+					};
+				}
+				
+				// Wrap horizontal bounds
+				if (p.x > this.width + 5) {
+					p.x = -5;
+				} else if (p.x < -5) {
+					p.x = this.width + 5;
+				}
+			}
+		}
+	}
+
+	// Initialize when script runs, handling page navigation/lifecycle if needed
+	document.addEventListener('DOMContentLoaded', () => {
+		const canvas = document.getElementById('snow-canvas') as HTMLCanvasElement;
+		if (canvas) {
+			new Snowfall(canvas);
+		}
+	});
+
+	// For Astro View Transitions or dynamic loads
+	const initSnow = () => {
+		const canvas = document.getElementById('snow-canvas') as HTMLCanvasElement;
+		if (canvas) {
+			new Snowfall(canvas);
+		}
+	};
+	initSnow();
+</script>

@@ -1,0 +1,353 @@
+---
+---
+<div class="audio-control-container">
+	<button id="audio-toggle" class="audio-btn" aria-label="Activar música de fondo">
+		<div class="eq-container">
+			<span class="eq-bar bar1"></span>
+			<span class="eq-bar bar2"></span>
+			<span class="eq-bar bar3"></span>
+			<span class="eq-bar bar4"></span>
+		</div>
+		<svg class="mute-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<line x1="1" y1="1" x2="23" y2="23" class="mute-line"></line>
+			<path d="M9 9v6a3 3 0 0 0 3 3h1.586l4.707 4.707A1 1 0 0 0 20 22V4a1 1 0 0 0-1.707-.707L13.586 8H12a3 3 0 0 0-3 3z"></path>
+		</svg>
+	</button>
+	<span class="audio-tooltip">Activar Música</span>
+</div>
+
+<style>
+	.audio-control-container {
+		position: fixed;
+		bottom: 30px;
+		right: 30px;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.audio-btn {
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		background: rgba(15, 37, 71, 0.75); /* Dark blue translucent */
+		border: 2px solid rgba(203, 213, 225, 0.6); /* Silver border */
+		color: var(--color-silver-100);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		outline: none;
+		box-shadow: 0 8px 32px rgba(15, 37, 71, 0.3), 
+					inset 0 2px 8px rgba(255, 255, 255, 0.2);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.audio-btn:hover {
+		transform: scale(1.1);
+		border-color: #ffffff;
+		box-shadow: 0 12px 40px rgba(15, 37, 71, 0.4), 
+					inset 0 2px 12px rgba(255, 255, 255, 0.3);
+	}
+
+	.audio-btn:active {
+		transform: scale(0.95);
+	}
+
+	.mute-icon {
+		width: 24px;
+		height: 24px;
+		position: absolute;
+		transition: transform 0.3s ease, opacity 0.3s ease;
+	}
+
+	.eq-container {
+		display: none;
+		align-items: flex-end;
+		justify-content: space-between;
+		width: 20px;
+		height: 18px;
+		position: absolute;
+	}
+
+	.eq-bar {
+		width: 3px;
+		height: 100%;
+		background-color: var(--color-silver-200);
+		border-radius: 2px;
+		transform-origin: bottom;
+		animation: bounce 1s ease-in-out infinite alternate;
+	}
+
+	.bar1 { animation-delay: 0.1s; height: 30%; }
+	.bar2 { animation-delay: 0.4s; height: 60%; }
+	.bar3 { animation-delay: 0.2s; height: 80%; }
+	.bar4 { animation-delay: 0.5s; height: 40%; }
+
+	@keyframes bounce {
+		0% { transform: scaleY(0.2); }
+		100% { transform: scaleY(1); }
+	}
+
+	/* Toggle State classes */
+	.playing .mute-icon {
+		opacity: 0;
+		transform: scale(0.5);
+	}
+
+	.playing .eq-container {
+		display: flex;
+	}
+
+	.audio-tooltip {
+		background: rgba(15, 37, 71, 0.85);
+		border: 1px solid rgba(203, 213, 225, 0.4);
+		color: var(--color-silver-100);
+		padding: 8px 16px;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-family: var(--font-body);
+		font-weight: 500;
+		white-space: nowrap;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+		opacity: 0;
+		transform: translateX(15px);
+		pointer-events: none;
+		transition: all 0.3s ease;
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
+	}
+
+	.audio-control-container:hover .audio-tooltip {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	@media (max-width: 768px) {
+		.audio-control-container {
+			bottom: 20px;
+			right: 20px;
+		}
+		.audio-tooltip {
+			display: none; /* Hide tooltip on mobile for space */
+		}
+	}
+</style>
+
+<script>
+	class AmbientSynth {
+		ctx: AudioContext | null = null;
+		isPlaying: boolean = false;
+		schedulerId: number | null = null;
+		nextNoteTime: number = 0;
+		tempo: number = 72; // BPM (very slow and elegant)
+		beatDuration: number = 60 / 72;
+		
+		// D Major / B Minor Pentatonic and lovely notes
+		// Scale: D3=146.83, F#3=185.00, A3=220.00, B3=246.94, C#4=277.18, D4=293.66, F#4=369.99, A4=440.00, B4=493.88
+		scale = [146.83, 185.00, 220.00, 246.94, 277.18, 293.66, 369.99, 440.00, 493.88, 554.37, 587.33, 739.99, 880.00];
+		
+		// Chords definition (each chord is a list of frequencies)
+		// 1: Bm7 (B2, D3, F#3, A3)
+		// 2: Gmaj7 (G2, B2, D3, F#3)
+		// 3: Dmaj7 (D2, A2, D3, F#3, C#4)
+		// 4: Asus4 (A2, E3, A3, D4)
+		chords = [
+			[123.47, 146.83, 185.00, 220.00], // Bm7
+			[98.00, 123.47, 146.83, 185.00],  // Gmaj7
+			[73.42, 110.00, 146.83, 185.00, 277.18], // Dmaj7
+			[110.00, 164.81, 220.00, 293.66]  // Asus4
+		];
+
+		currentChordIndex = 0;
+		noteIndex = 0;
+
+		constructor() {}
+
+		init() {
+			const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+			this.ctx = new AudioContextClass();
+		}
+
+		start() {
+			if (!this.ctx) this.init();
+			if (this.ctx && this.ctx.state === 'suspended') {
+				this.ctx.resume();
+			}
+			
+			this.isPlaying = true;
+			this.nextNoteTime = this.ctx!.currentTime;
+			this.scheduler();
+		}
+
+		stop() {
+			this.isPlaying = false;
+			if (this.schedulerId) {
+				clearTimeout(this.schedulerId);
+				this.schedulerId = null;
+			}
+		}
+
+		scheduler() {
+			if (!this.isPlaying || !this.ctx) return;
+
+			while (this.nextNoteTime < this.ctx.currentTime + 0.1) {
+				this.scheduleNextBeat(this.nextNoteTime);
+				this.advanceBeat();
+			}
+
+			// Poll every 50ms
+			this.schedulerId = window.setTimeout(() => this.scheduler(), 50);
+		}
+
+		scheduleNextBeat(time: number) {
+			const ctx = this.ctx!;
+			
+			// 1. Play the pad/bass notes on the downbeat of a measure (every 8 beats)
+			if (this.noteIndex === 0) {
+				const chord = this.chords[this.currentChordIndex];
+				
+				// Play chord tones gently
+				chord.forEach((freq, idx) => {
+					// Add subtle variation in start times
+					const noteTime = time + idx * 0.05;
+					const osc = ctx.createOscillator();
+					const gain = ctx.createGain();
+					const filter = ctx.createBiquadFilter();
+
+					osc.type = idx === 0 ? 'sine' : 'triangle'; // Deep sine for bass, triangle for harmony
+					osc.frequency.setValueAtTime(freq, noteTime);
+
+					filter.type = 'lowpass';
+					// Low pass filter to keep it soft
+					filter.frequency.setValueAtTime(idx === 0 ? 250 : 350, noteTime);
+
+					// Long slow envelope
+					gain.gain.setValueAtTime(0, noteTime);
+					gain.gain.linearRampToValueAtTime(idx === 0 ? 0.04 : 0.02, noteTime + 1.5);
+					gain.gain.setValueAtTime(idx === 0 ? 0.04 : 0.02, noteTime + this.beatDuration * 8 - 1.5);
+					gain.gain.exponentialRampToValueAtTime(0.0001, noteTime + this.beatDuration * 8);
+
+					osc.connect(filter);
+					filter.connect(gain);
+					gain.connect(ctx.destination);
+
+					osc.start(noteTime);
+					osc.stop(noteTime + this.beatDuration * 8);
+				});
+			}
+
+			// 2. Play light piano melody notes on selected beats (arpeggiated)
+			// Let's play a melody note on beats 0, 2, 3, 5, 6 (pentatonic/magical)
+			const melodyBeats = [0, 2, 3, 5, 6];
+			if (melodyBeats.includes(this.noteIndex) && Math.random() > 0.15) {
+				// Pick a note from the chord or upper scale
+				const currentChord = this.chords[this.currentChordIndex];
+				const rootFreq = currentChord[0];
+				
+				// Map melody notes that harmonize well
+				let freq = rootFreq * 4; // High octave root
+				
+				const choice = Math.random();
+				if (choice < 0.3) {
+					freq = currentChord[currentChord.length - 1] * 2; // 2nd octave of highest chord note
+				} else if (choice < 0.7) {
+					// Random high note from our scale
+					const highScale = this.scale.slice(6);
+					freq = highScale[Math.floor(Math.random() * highScale.length)];
+				} else {
+					freq = currentChord[1] * 2;
+				}
+
+				this.playPianoTone(freq, time);
+			}
+		}
+
+		playPianoTone(freq: number, time: number) {
+			const ctx = this.ctx!;
+			const osc = ctx.createOscillator();
+			const gain = ctx.createGain();
+			const filter = ctx.createBiquadFilter();
+			const delay = ctx.createDelay();
+			const feedback = ctx.createGain();
+
+			osc.type = 'triangle';
+			osc.frequency.setValueAtTime(freq, time);
+
+			// Add a slight detuned sub-oscillator for warmth
+			const oscSub = ctx.createOscillator();
+			const gainSub = ctx.createGain();
+			oscSub.type = 'sine';
+			oscSub.frequency.setValueAtTime(freq * 1.003, time);
+			gainSub.gain.setValueAtTime(0.008, time);
+
+			filter.type = 'lowpass';
+			filter.frequency.setValueAtTime(700, time);
+
+			// Reverb/Delay effect
+			delay.delayTime.setValueAtTime(this.beatDuration * 0.75, time); // dotted-eighth style delay
+			feedback.gain.setValueAtTime(0.4, time); // echo strength
+
+			// Piano envelope (fast attack, long natural decay)
+			gain.gain.setValueAtTime(0, time);
+			gain.gain.linearRampToValueAtTime(0.035, time + 0.02); // crisp attack
+			gain.gain.exponentialRampToValueAtTime(0.0001, time + this.beatDuration * 3); // natural ring out
+
+			// Connections
+			osc.connect(filter);
+			oscSub.connect(filter);
+			filter.connect(gain);
+			
+			// Connect delay feedback loop
+			gain.connect(delay);
+			delay.connect(feedback);
+			feedback.connect(delay);
+			
+			// Output connections
+			delay.connect(ctx.destination);
+			gain.connect(ctx.destination);
+
+			osc.start(time);
+			oscSub.start(time);
+			
+			osc.stop(time + this.beatDuration * 3.1);
+			oscSub.stop(time + this.beatDuration * 3.1);
+		}
+
+		advanceBeat() {
+			this.nextNoteTime += this.beatDuration;
+			
+			this.noteIndex++;
+			if (this.noteIndex >= 8) { // 8 beats per measure
+				this.noteIndex = 0;
+				this.currentChordIndex = (this.currentChordIndex + 1) % this.chords.length;
+			}
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const toggleBtn = document.getElementById('audio-toggle');
+		const container = document.querySelector('.audio-control-container');
+		const tooltip = document.querySelector('.audio-tooltip');
+		
+		if (!toggleBtn || !container) return;
+
+		const synth = new AmbientSynth();
+
+		toggleBtn.addEventListener('click', () => {
+			if (synth.isPlaying) {
+				synth.stop();
+				toggleBtn.classList.remove('playing');
+				if (tooltip) tooltip.textContent = 'Activar Música';
+			} else {
+				synth.start();
+				toggleBtn.classList.add('playing');
+				if (tooltip) tooltip.textContent = 'Silenciar';
+			}
+		});
+	});
+</script>

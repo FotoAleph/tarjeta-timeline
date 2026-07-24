@@ -1,0 +1,358 @@
+---
+---
+<div id="gallery-pin" class="gallery-pin-container">
+	<div class="gallery-sticky">
+		<div class="gallery-header">
+			<span class="gallery-pre">Galería de Recuerdos</span>
+			<h2 class="gallery-title">Mis Momentos Favoritos</h2>
+			<div class="gallery-decor">
+				<span class="decor-dot"></span>
+				<span class="decor-dot"></span>
+				<span class="decor-dot"></span>
+			</div>
+		</div>
+		
+		<div class="gallery-track-wrapper">
+			<div class="gallery-track" id="gallery-track">
+				
+				<!-- Slide 1 -->
+				<div class="gallery-slide">
+					<div class="slide-card">
+						<div class="slide-img-frame">
+							<img src="/assets/gallery_girl.jpg" alt="Victoria en su sesión de fotos" class="slide-img" />
+							<div class="frame-border"></div>
+						</div>
+						<div class="slide-info">
+							<span class="slide-num">01 / 03</span>
+							<h3>El Comienzo del Sueño</h3>
+							<p>Cada día es una nueva oportunidad para brillar, soñar en grande y dar gracias por las bendiciones de la vida.</p>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Slide 2 -->
+				<div class="gallery-slide">
+					<div class="slide-card invert">
+						<div class="slide-info">
+							<span class="slide-num">02 / 03</span>
+							<h3>Detalles con Magia</h3>
+							<p>Los pequeños instantes, los brillos de plata y los detalles con amor son los que hacen esta noche eterna.</p>
+						</div>
+						<div class="slide-img-frame">
+							<img src="/assets/gallery_tiara.jpg" alt="Tiara de quinceañera" class="slide-img" />
+							<div class="frame-border"></div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Slide 3 -->
+				<div class="gallery-slide">
+					<div class="slide-card">
+						<div class="slide-img-frame">
+							<img src="/assets/gallery_cake.jpg" alt="El pastel de 15 años" class="slide-img" />
+							<div class="frame-border"></div>
+						</div>
+						<div class="slide-info">
+							<span class="slide-num">03 / 03</span>
+							<h3>Un Dulce Recuerdo</h3>
+							<p>Quiero compartir con ustedes la dulzura de festejar un nuevo capítulo lleno de alegría, ilusiones y felicidad.</p>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<!-- Gallery scroll indicator -->
+		<div class="gallery-progress-wrapper">
+			<span class="progress-label">Desliza para explorar</span>
+			<div class="gallery-progress-bar">
+				<div class="gallery-progress-fill" id="gallery-progress-bar"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.gallery-pin-container {
+		height: 350vh; /* Scroll length determines speed of horizontal scroll */
+		position: relative;
+		width: 100%;
+		background: #0b1a30; /* Metallic dark blue base */
+	}
+
+	.gallery-sticky {
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		width: 100%;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 60px 0;
+		box-sizing: border-box;
+		background: radial-gradient(circle at center, #0f2547 0%, #050d18 100%);
+	}
+
+	/* Gallery Header */
+	.gallery-header {
+		text-align: center;
+		padding: 0 20px;
+		z-index: 10;
+	}
+
+	.gallery-pre {
+		font-family: var(--font-body);
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 4px;
+		color: var(--color-silver-300);
+		font-weight: 500;
+	}
+
+	.gallery-title {
+		font-size: 2.5rem;
+		color: #ffffff;
+		margin-top: 8px;
+		font-weight: 400;
+		letter-spacing: 1px;
+		background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.gallery-decor {
+		display: flex;
+		justify-content: center;
+		gap: 8px;
+		margin-top: 12px;
+	}
+
+	.decor-dot {
+		width: 5px;
+		height: 5px;
+		background-color: var(--color-silver-400);
+		border-radius: 50%;
+		opacity: 0.7;
+	}
+
+	/* Gallery Track */
+	.gallery-track-wrapper {
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		margin: 20px 0;
+	}
+
+	.gallery-track {
+		display: flex;
+		width: 300vw; /* 3 slides = 300% viewport width */
+		height: 60vh;
+		will-change: transform;
+	}
+
+	.gallery-slide {
+		width: 100vw;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		padding: 0 40px;
+	}
+
+	/* Slide Card */
+	.slide-card {
+		display: flex;
+		align-items: center;
+		gap: 60px;
+		max-width: 1000px;
+		width: 100%;
+		height: 100%;
+	}
+
+	.slide-card.invert {
+		flex-direction: row-reverse;
+	}
+
+	/* Image Frame with Silver Details */
+	.slide-img-frame {
+		position: relative;
+		flex: 1 1 50%;
+		height: 100%;
+		max-height: 480px;
+		border-radius: 16px;
+		overflow: hidden;
+		box-shadow: 0 25px 55px rgba(0, 0, 0, 0.5);
+		border: 1.5px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.slide-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.6s ease;
+	}
+
+	.slide-img-frame:hover .slide-img {
+		transform: scale(1.05);
+	}
+
+	.frame-border {
+		position: absolute;
+		top: 15px;
+		left: 15px;
+		right: 15px;
+		bottom: 15px;
+		border: 1.5px solid rgba(226, 232, 240, 0.4); /* Silver foil edge inside */
+		border-radius: 8px;
+		pointer-events: none;
+	}
+
+	/* Slide Text Info */
+	.slide-info {
+		flex: 1 1 50%;
+		color: #ffffff;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		max-width: 420px;
+	}
+
+	.slide-num {
+		font-family: var(--font-body);
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--color-silver-300);
+		letter-spacing: 2px;
+		margin-bottom: 15px;
+	}
+
+	.slide-info h3 {
+		font-family: var(--font-heading);
+		font-size: 2.2rem;
+		color: #ffffff;
+		margin-bottom: 20px;
+		font-weight: 600;
+		text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+	}
+
+	.slide-info p {
+		font-family: var(--font-body);
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--color-silver-200);
+	}
+
+	/* Progress bar at the bottom */
+	.gallery-progress-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		z-index: 10;
+		padding: 0 20px;
+	}
+
+	.progress-label {
+		font-family: var(--font-body);
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 3px;
+		color: var(--color-silver-300);
+	}
+
+	.gallery-progress-bar {
+		width: 250px;
+		height: 3px;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 2px;
+		overflow: hidden;
+	}
+
+	.gallery-progress-fill {
+		width: 0%;
+		height: 100%;
+		background: var(--gradient-silver);
+		box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+		border-radius: 2px;
+		transition: width 0.1s ease-out;
+	}
+
+	/* Responsive layouts */
+	@media (max-width: 820px) {
+		.gallery-sticky {
+			padding: 40px 0;
+		}
+		
+		.slide-card {
+			flex-direction: column !important;
+			gap: 25px;
+			justify-content: center;
+		}
+
+		.slide-img-frame {
+			flex: none;
+			width: 100%;
+			height: 55%;
+			max-height: 300px;
+		}
+
+		.slide-info {
+			flex: none;
+			width: 100%;
+			text-align: center;
+			align-items: center;
+		}
+
+		.slide-info h3 {
+			font-size: 1.8rem;
+			margin-bottom: 10px;
+		}
+
+		.slide-info p {
+			font-size: 0.9rem;
+		}
+	}
+</style>
+
+<script>
+	const pinContainer = document.getElementById('gallery-pin');
+	const track = document.getElementById('gallery-track');
+	const progressBar = document.getElementById('gallery-progress-bar');
+
+	const translateGallery = () => {
+		if (!pinContainer || !track) return;
+		
+		const rect = pinContainer.getBoundingClientRect();
+		const containerHeight = rect.height;
+		const containerTop = rect.top;
+		
+		// If the pin container is not in focus/viewport, skip math
+		if (containerTop > window.innerHeight || containerTop + containerHeight < 0) {
+			return;
+		}
+
+		// Calculate scroll progress within the pin container
+		// 0 when the top of the container starts passing the top of the viewport
+		// 1 when the bottom of the container is aligned with the bottom of the viewport
+		const scrollRange = containerHeight - window.innerHeight;
+		let progress = -containerTop / scrollRange;
+		progress = Math.max(0, Math.min(1, progress));
+		
+		// Translate the horizontal track. With 3 slides, the translation range is 0vw to -200vw
+		const translateX = progress * 200; // in vw
+		track.style.transform = `translateX(-${translateX}vw)`;
+		
+		// Update the horizontal progress fill
+		if (progressBar) {
+			progressBar.style.width = `${progress * 100}%`;
+		}
+	};
+
+	// Register scroll handler
+	window.addEventListener('scroll', translateGallery);
+	window.addEventListener('resize', translateGallery);
+</script>

@@ -1,23 +1,102 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Bienvenidos a mis 15 años</title>
+		
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Pinyon+Script&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
 
-<style>
-	html,
-	body {
+<style is:global>
+	:root {
+		--font-heading: 'Playfair Display', serif;
+		--font-body: 'Montserrat', sans-serif;
+		--font-accent: 'Pinyon Script', cursive;
+
+		--color-bg-light: #f0f4f8;
+		--color-bg-alt: #e6eef4;
+		--color-text-dark: #0f2547;
+		--color-text-light: #f8fafc;
+		
+		--color-silver-100: #f1f5f9;
+		--color-silver-200: #e2e8f0;
+		--color-silver-300: #cbd5e1;
+		--color-silver-400: #94a3b8;
+		--color-silver-600: #475569;
+		
+		--color-blue-100: #e0f2fe;
+		--color-blue-200: #bae6fd;
+		--color-blue-300: #7dd3fc;
+		--color-blue-600: #0284c7;
+		--color-blue-900: #0f172a;
+		
+		/* Premium Metallic Gradients */
+		--gradient-silver: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 50%, #94a3b8 100%);
+		--gradient-silver-metallic: linear-gradient(135deg, #e2e8f0 0%, #ffffff 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
+		--gradient-blue-metallic: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1d4ed8 100%);
+		--gradient-dark-blue: linear-gradient(135deg, #0b1a30 0%, #122c52 50%, #081324 100%);
+		
+		--shadow-metallic: 0 10px 30px rgba(148, 163, 184, 0.15), 0 1px 8px rgba(148, 163, 184, 0.1);
+		--shadow-deep: 0 20px 40px rgba(15, 37, 71, 0.2);
+	}
+
+	*, *::before, *::after {
+		box-sizing: border-box;
 		margin: 0;
+		padding: 0;
+	}
+
+	html {
+		scroll-behavior: smooth;
 		width: 100%;
-		height: 100%;
+		overflow-x: hidden;
+		background: var(--color-bg-light);
+		color: var(--color-text-dark);
+		font-family: var(--font-body);
+	}
+
+	body {
+		width: 100%;
+		overflow-x: hidden;
+		min-height: 100vh;
+		position: relative;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-heading);
+		color: var(--color-text-dark);
+		font-weight: 700;
+	}
+
+	p {
+		line-height: 1.6;
+		font-size: 1rem;
+		color: var(--color-silver-600);
+	}
+
+	/* Scrollbar custom style */
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+	::-webkit-scrollbar-track {
+		background: var(--color-bg-light);
+	}
+	::-webkit-scrollbar-thumb {
+		background: var(--color-silver-400);
+		border-radius: 4px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-text-dark);
 	}
 </style>
