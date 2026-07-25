@@ -7,16 +7,18 @@
 	</div>
 	
 	<div class="hero-content">
-		<div class="hero-card">
-				<img src="/assets/011.png" alt="" srcset="">
-		</div>
-		<div class="hero-divider"></div>
 
+		<div class="aviso-container">
+			<img  class="aviso-image" src="/assets/aviso.webp" alt="✨">
+		
+		</div>
 		<div class="hero-card">
+			<img src="/assets/016.webp" alt="Sharon Valeria">
 			<h1 class="hero-name">Sharon Valeria</h1>
 			<h2 class="hero-name">Peña Forero</h2>
 		</div>
-		
+		<div class="hero-divider"></div>
+	
 		<div class="scroll-indicator animate-item">
 			<span class="scroll-text">Descubre la Historia</span>
 			<div class="scroll-arrow">
@@ -50,7 +52,7 @@
 	.hero-bg {
 		width: 100%;
 		height: 100%;
-		background-image: url('/assets/hero_bg.png');
+		background-image: url('/assets/fondo_ancho.webp');
 		background-size: cover;
 		background-position: center;
 		transform: scale(1.1);
@@ -99,6 +101,20 @@
 					opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
+	.hero-card > img {
+		max-width: 100%;
+		height: auto;
+		
+	}
+
+	.aviso-container {
+		width: 100%;
+	}
+
+	.aviso-image {
+		max-width: 100%;
+	}
+
 	.hero-subtitle {
 		font-family: var(--font-body);
 		font-weight: 500;
@@ -117,7 +133,7 @@
 		font-weight: 400;
 		margin: 5px 0;
 		line-height: 0.9;
-		background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #f1f5f9 100%);
+		background: linear-gradient(135deg, #1f03fa 0%, #041223 50%, #0a7df0 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
@@ -272,8 +288,12 @@
 	}
 
 	@media (max-width: 600px) {
+		.hero-bg {
+			background-image: url('/assets/fondo.webp');
+		}
+
 		.hero-name {
-			font-size: 4rem;
+			font-size: 3rem;
 		}
 		.hero-tagline {
 			font-size: 1.5rem;
