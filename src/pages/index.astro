@@ -7,6 +7,8 @@ import Hero from '../components/Hero.astro';
 import Timeline from '../components/Timeline.astro';
 import HorizontalGallery from '../components/HorizontalGallery.astro';
 import FooterInfo from '../components/FooterInfo.astro';
+import Invitation from '../components/Invitation.astro';
+import Countdown from '../components/Countdown.astro';
 ---
 
 <Layout>
@@ -21,9 +23,13 @@ import FooterInfo from '../components/FooterInfo.astro';
 	
 	<!-- Fullscreen elegant Hero section with premium image -->
 	<Hero />
+
+	<Countdown/>
 	
 	<!-- Vertical scroll-interactive timeline itinerary with scaling cards -->
 	<Timeline />
+
+	<Invitation />
 	
 	<!-- Full width horizontal scroll gallery (Scroll Interrupter) -->
 	<HorizontalGallery />

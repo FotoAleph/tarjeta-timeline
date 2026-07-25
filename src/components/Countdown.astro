@@ -1,0 +1,204 @@
+---
+// Countdown.astro - Real-time countdown timer component
+interface Props {
+  targetDate?: string; // Format: "YYYY-MM-DDTHH:MM:SS"
+}
+
+const { targetDate = "2026-08-29T18:00:00" } = Astro.props;
+---
+
+<section class="countdown-section" id="countdown-anchor">
+  <div class="container reveal">
+    <div class="glass-card countdown-card">
+      <h2 class="section-title">¡Prepárate!</h2>
+      <p class="section-subtitle">Faltan...</p>
+
+      <div
+        class="grid__7 countdown-grid"
+        id="countdown-timer"
+        data-target={targetDate}
+      >
+        <div class="timer-block">
+          <div id="days" class="tiempo_magnitud">00</div>
+          <div class="etiqueta_tiempo">Días</div>
+        </div>
+
+        <div class="puntos_horas">:</div>
+
+        <div class="timer-block">
+          <div id="hours" class="tiempo_magnitud">00</div>
+          <div class="etiqueta_tiempo">Horas</div>
+        </div>
+
+        <div class="puntos_horas">:</div>
+
+        <div class="timer-block">
+          <div id="minutes" class="tiempo_magnitud">00</div>
+          <div class="etiqueta_tiempo">Minutos</div>
+        </div>
+
+        <div class="puntos_horas">:</div>
+
+        <div class="timer-block">
+          <div id="seconds" class="tiempo_magnitud">00</div>
+          <div class="etiqueta_tiempo">Segundos</div>
+        </div>
+      </div>
+
+      <div id="countdown-ended-message" class="ended-message hidden">
+        ¡El gran día ha llegado! 🎉
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const initCountdown = () => {
+    const timerElement = document.getElementById("countdown-timer");
+    if (!timerElement) return;
+
+    const targetDateStr =
+      timerElement.getAttribute("data-target") || "2026-06-13T19:00:00";
+    const targetTime = new Date(targetDateStr).getTime();
+
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minsEl = document.getElementById("minutes");
+    const secsEl = document.getElementById("seconds");
+    const endedMessage = document.getElementById("countdown-ended-message");
+
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const difference = targetTime - now;
+
+      if (difference < 0) {
+        clearInterval(intervalId);
+        timerElement.classList.add("hidden");
+        if (endedMessage) endedMessage.classList.remove("hidden");
+        return;
+      }
+
+      // Calculations
+      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const h = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+      // Render
+      if (daysEl) daysEl.innerText = d.toString().padStart(2, "0");
+      if (hoursEl) hoursEl.innerText = h.toString().padStart(2, "0");
+      if (minsEl) minsEl.innerText = m.toString().padStart(2, "0");
+      if (secsEl) secsEl.innerText = s.toString().padStart(2, "0");
+    };
+
+    updateTimer();
+    const intervalId = setInterval(updateTimer, 1000);
+  };
+
+  document.addEventListener("DOMContentLoaded", initCountdown);
+</script>
+
+<style>
+  .countdown-section {
+    padding: 5rem 1rem;
+    background-color: var(--bg-cream);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .countdown-card {
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(237, 134, 151, 0.08);
+  }
+
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: 2fr 0.5fr 2fr 0.5fr 2fr 0.5fr 2fr;
+    align-items: center;
+    max-width: 480px;
+    margin: 2rem auto 0 auto;
+  }
+
+  .timer-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tiempo_magnitud {
+    font-family: var(--font-sans);
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 2.8rem;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  }
+
+  .puntos_horas {
+    color: var(--secondary);
+    font-family: var(--font-sans);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+    transform: translateY(-8px);
+  }
+
+  .etiqueta_tiempo {
+    font-family: var(--font-sans);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-top: 0.4rem;
+  }
+
+  .ended-message {
+    font-family: var(--font-title);
+    color: var(--secondary);
+    font-size: 2.5rem;
+    margin-top: 1.5rem;
+    animation: pulseText 1.5s infinite alternate;
+  }
+
+  @keyframes pulseText {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.05);
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 480px) {
+    .countdown-card {
+      padding: 2.5rem 1.2rem;
+    }
+    .tiempo_magnitud {
+      font-size: 2.1rem;
+    }
+    .puntos_horas {
+      font-size: 1.8rem;
+      transform: translateY(-5px);
+    }
+    .etiqueta_tiempo {
+      font-size: 0.6rem;
+      letter-spacing: 0.8px;
+    }
+  }
+</style>
