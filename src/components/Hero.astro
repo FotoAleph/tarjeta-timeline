@@ -9,13 +9,12 @@
 	<div class="hero-content">
 
 		<div class="aviso-container">
-			<img  class="aviso-image" src="/assets/aviso.webp" alt="✨">
-		
+			<img class="aviso-image" src="/assets/aviso.webp" alt="✨">
 		</div>
 		<div class="hero-card">
 			<img src="/assets/016.webp" alt="Sharon Valeria">
-			<h1 class="hero-name">Sharon Valeria</h1>
-			<h2 class="hero-name">Peña Forero</h2>
+			<h1 class="hero-name hero-name--first">Sharon Valeria</h1>
+			<h2 class="hero-name hero-name--second">Peña Forero</h2>
 		</div>
 		<div class="hero-divider"></div>
 	
@@ -113,6 +112,9 @@
 
 	.aviso-image {
 		max-width: 100%;
+		opacity: 0;
+		transform: translateY(24px);
+		transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	.hero-subtitle {
@@ -137,6 +139,17 @@
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+		opacity: 0;
+		transform: translateY(24px);
+		transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.hero-name--first {
+		transition-delay: 0.15s;
+	}
+
+	.hero-name--second {
+		transition-delay: 0.3s;
 	}
 
 	.hero-divider {
@@ -280,6 +293,13 @@
 	.ready .hero-card {
 		transform: translateY(0);
 		opacity: 1;
+	}
+
+	.ready .aviso-image,
+	.ready .hero-name,
+	.ready .hero-divider {
+		opacity: 1;
+		transform: translateY(0);
 	}
 
 	.ready .scroll-indicator {

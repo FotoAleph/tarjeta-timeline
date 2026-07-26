@@ -10,9 +10,7 @@ const { targetDate = "2026-08-29T18:00:00" } = Astro.props;
 <section class="countdown-section" id="countdown-anchor">
   <div class="container reveal">
     <div class="glass-card countdown-card">
-      <h2 class="section-title">¡Prepárate!</h2>
-      <p class="section-subtitle">Faltan...</p>
-
+      <h2 class="section-title">¡Prepárate! Faltan...</h2>
       <div
         class="grid__7 countdown-grid"
         id="countdown-timer"
@@ -50,6 +48,11 @@ const { targetDate = "2026-08-29T18:00:00" } = Astro.props;
       </div>
     </div>
   </div>
+  
+	<p class="timeline-subtitle">Hay momentos que se convierten en recuerdos eternos, y hoy uno de <strong> mis grandes sueños se hace realidad. </strong>
+Con la bendición de Dios y el amor de mi familia, llega la noche más esperada: mis quince años.
+Como toda princesa, quiero compartir esta celebración mágica con las personas especiales de mi vida. Tu presencia hará de este día un recuerdo inolvidable.
+Acompáñame a celebrar la magia de mis quince años.</p>
 </section>
 
 <script>
@@ -102,9 +105,12 @@ const { targetDate = "2026-08-29T18:00:00" } = Astro.props;
 
 <style>
   .countdown-section {
-    padding: 5rem 1rem;
-    background-color: var(--bg-cream);
+    padding: 1rem;
+    background-image: url('/assets/cake.webp');
+    background-size: cover;
+    background-position: center;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
@@ -114,16 +120,27 @@ const { targetDate = "2026-08-29T18:00:00" } = Astro.props;
     max-width: 600px;
   }
 
+  .section-title {
+    font-family: var(--font-heading);
+    color: var(--primary);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
   .countdown-card {
     padding: 3rem 2rem;
     border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(237, 134, 151, 0.08);
+    box-shadow: 0 10px 30px rgba(134, 203, 237, 0.2);
   }
 
   .countdown-grid {
     display: grid;
     grid-template-columns: 2fr 0.5fr 2fr 0.5fr 2fr 0.5fr 2fr;
     align-items: center;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    padding: 1.5rem;
     max-width: 480px;
     margin: 2rem auto 0 auto;
   }
@@ -170,6 +187,19 @@ const { targetDate = "2026-08-29T18:00:00" } = Astro.props;
     font-size: 2.5rem;
     margin-top: 1.5rem;
     animation: pulseText 1.5s infinite alternate;
+  }
+
+  .timeline-subtitle {
+    font-family: var(--font-heading);
+    color: var(--text-muted);
+    font-size: 2rem;
+    text-align: center;
+    line-height: 1;
+    margin-top: 2rem;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
   }
 
   @keyframes pulseText {
