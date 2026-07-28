@@ -39,7 +39,6 @@
 		align-items: center;
 		justify-content: center;
 		position: relative;
-		outline: none;
 		box-shadow: 0 8px 32px rgba(15, 37, 71, 0.3), 
 					inset 0 2px 8px rgba(255, 255, 255, 0.2);
 		backdrop-filter: blur(8px);
@@ -56,6 +55,11 @@
 
 	.audio-btn:active {
 		transform: scale(0.95);
+	}
+
+	.audio-btn:focus-visible {
+		outline: 3px solid #ffffff;
+		outline-offset: 3px;
 	}
 
 	.mute-icon {
@@ -138,216 +142,56 @@
 	}
 </style>
 
+<!-- Reproducer audio usando archivo estático -->
+<audio id="bg-audio" src="/assets/music/music.mp3" loop preload="auto"></audio>
+
 <script>
-	class AmbientSynth {
-		ctx: AudioContext | null = null;
-		isPlaying: boolean = false;
-		schedulerId: number | null = null;
-		nextNoteTime: number = 0;
-		tempo: number = 72; // BPM (very slow and elegant)
-		beatDuration: number = 60 / 72;
-		
-		// D Major / B Minor Pentatonic and lovely notes
-		// Scale: D3=146.83, F#3=185.00, A3=220.00, B3=246.94, C#4=277.18, D4=293.66, F#4=369.99, A4=440.00, B4=493.88
-		scale = [146.83, 185.00, 220.00, 246.94, 277.18, 293.66, 369.99, 440.00, 493.88, 554.37, 587.33, 739.99, 880.00];
-		
-		// Chords definition (each chord is a list of frequencies)
-		// 1: Bm7 (B2, D3, F#3, A3)
-		// 2: Gmaj7 (G2, B2, D3, F#3)
-		// 3: Dmaj7 (D2, A2, D3, F#3, C#4)
-		// 4: Asus4 (A2, E3, A3, D4)
-		chords = [
-			[123.47, 146.83, 185.00, 220.00], // Bm7
-			[98.00, 123.47, 146.83, 185.00],  // Gmaj7
-			[73.42, 110.00, 146.83, 185.00, 277.18], // Dmaj7
-			[110.00, 164.81, 220.00, 293.66]  // Asus4
-		];
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('audio-toggle');
+    const container = document.querySelector('.audio-control-container');
+    const tooltip = document.querySelector('.audio-tooltip');
+    const audio = document.getElementById('bg-audio');
 
-		currentChordIndex = 0;
-		noteIndex = 0;
+    if (!toggleBtn || !container || !audio) return;
 
-		constructor() {}
+    // Ensure correct typing in TS/JS environments
+    const bgAudio = /** @type {HTMLAudioElement} */ (audio);
+    bgAudio.volume = 0.6;
 
-		init() {
-			const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-			this.ctx = new AudioContextClass();
-		}
+    function setPlayingState(isPlaying) {
+        if (isPlaying) {
+            toggleBtn.classList.add('playing');
+            container.classList.add('playing');
+            if (tooltip) tooltip.textContent = 'Silenciar';
+        } else {
+            toggleBtn.classList.remove('playing');
+            container.classList.remove('playing');
+            if (tooltip) tooltip.textContent = 'Activar Música';
+        }
+    }
 
-		start() {
-			if (!this.ctx) this.init();
-			if (this.ctx && this.ctx.state === 'suspended') {
-				this.ctx.resume();
-			}
-			
-			this.isPlaying = true;
-			this.nextNoteTime = this.ctx!.currentTime;
-			this.scheduler();
-		}
+    toggleBtn.addEventListener('click', async () => {
+        if (!bgAudio.paused) {
+            bgAudio.pause();
+            setPlayingState(false);
+            return;
+        }
 
-		stop() {
-			this.isPlaying = false;
-			if (this.schedulerId) {
-				clearTimeout(this.schedulerId);
-				this.schedulerId = null;
-			}
-		}
+        try {
+            const playResult = bgAudio.play();
+            if (playResult !== undefined) {
+                await playResult;
+            }
+            setPlayingState(true);
+        } catch (err) {
+            // Play was prevented (autoplay policy). Show tooltip message.
+            console.warn('No se pudo iniciar la reproducción automática:', err);
+            if (tooltip) tooltip.textContent = 'Toca para reproducir';
+        }
+    });
 
-		scheduler() {
-			if (!this.isPlaying || !this.ctx) return;
-
-			while (this.nextNoteTime < this.ctx.currentTime + 0.1) {
-				this.scheduleNextBeat(this.nextNoteTime);
-				this.advanceBeat();
-			}
-
-			// Poll every 50ms
-			this.schedulerId = window.setTimeout(() => this.scheduler(), 50);
-		}
-
-		scheduleNextBeat(time: number) {
-			const ctx = this.ctx!;
-			
-			// 1. Play the pad/bass notes on the downbeat of a measure (every 8 beats)
-			if (this.noteIndex === 0) {
-				const chord = this.chords[this.currentChordIndex];
-				
-				// Play chord tones gently
-				chord.forEach((freq, idx) => {
-					// Add subtle variation in start times
-					const noteTime = time + idx * 0.05;
-					const osc = ctx.createOscillator();
-					const gain = ctx.createGain();
-					const filter = ctx.createBiquadFilter();
-
-					osc.type = idx === 0 ? 'sine' : 'triangle'; // Deep sine for bass, triangle for harmony
-					osc.frequency.setValueAtTime(freq, noteTime);
-
-					filter.type = 'lowpass';
-					// Low pass filter to keep it soft
-					filter.frequency.setValueAtTime(idx === 0 ? 250 : 350, noteTime);
-
-					// Long slow envelope
-					gain.gain.setValueAtTime(0, noteTime);
-					gain.gain.linearRampToValueAtTime(idx === 0 ? 0.04 : 0.02, noteTime + 1.5);
-					gain.gain.setValueAtTime(idx === 0 ? 0.04 : 0.02, noteTime + this.beatDuration * 8 - 1.5);
-					gain.gain.exponentialRampToValueAtTime(0.0001, noteTime + this.beatDuration * 8);
-
-					osc.connect(filter);
-					filter.connect(gain);
-					gain.connect(ctx.destination);
-
-					osc.start(noteTime);
-					osc.stop(noteTime + this.beatDuration * 8);
-				});
-			}
-
-			// 2. Play light piano melody notes on selected beats (arpeggiated)
-			// Let's play a melody note on beats 0, 2, 3, 5, 6 (pentatonic/magical)
-			const melodyBeats = [0, 2, 3, 5, 6];
-			if (melodyBeats.includes(this.noteIndex) && Math.random() > 0.15) {
-				// Pick a note from the chord or upper scale
-				const currentChord = this.chords[this.currentChordIndex];
-				const rootFreq = currentChord[0];
-				
-				// Map melody notes that harmonize well
-				let freq = rootFreq * 4; // High octave root
-				
-				const choice = Math.random();
-				if (choice < 0.3) {
-					freq = currentChord[currentChord.length - 1] * 2; // 2nd octave of highest chord note
-				} else if (choice < 0.7) {
-					// Random high note from our scale
-					const highScale = this.scale.slice(6);
-					freq = highScale[Math.floor(Math.random() * highScale.length)];
-				} else {
-					freq = currentChord[1] * 2;
-				}
-
-				this.playPianoTone(freq, time);
-			}
-		}
-
-		playPianoTone(freq: number, time: number) {
-			const ctx = this.ctx!;
-			const osc = ctx.createOscillator();
-			const gain = ctx.createGain();
-			const filter = ctx.createBiquadFilter();
-			const delay = ctx.createDelay();
-			const feedback = ctx.createGain();
-
-			osc.type = 'triangle';
-			osc.frequency.setValueAtTime(freq, time);
-
-			// Add a slight detuned sub-oscillator for warmth
-			const oscSub = ctx.createOscillator();
-			const gainSub = ctx.createGain();
-			oscSub.type = 'sine';
-			oscSub.frequency.setValueAtTime(freq * 1.003, time);
-			gainSub.gain.setValueAtTime(0.008, time);
-
-			filter.type = 'lowpass';
-			filter.frequency.setValueAtTime(700, time);
-
-			// Reverb/Delay effect
-			delay.delayTime.setValueAtTime(this.beatDuration * 0.75, time); // dotted-eighth style delay
-			feedback.gain.setValueAtTime(0.4, time); // echo strength
-
-			// Piano envelope (fast attack, long natural decay)
-			gain.gain.setValueAtTime(0, time);
-			gain.gain.linearRampToValueAtTime(0.035, time + 0.02); // crisp attack
-			gain.gain.exponentialRampToValueAtTime(0.0001, time + this.beatDuration * 3); // natural ring out
-
-			// Connections
-			osc.connect(filter);
-			oscSub.connect(filter);
-			filter.connect(gain);
-			
-			// Connect delay feedback loop
-			gain.connect(delay);
-			delay.connect(feedback);
-			feedback.connect(delay);
-			
-			// Output connections
-			delay.connect(ctx.destination);
-			gain.connect(ctx.destination);
-
-			osc.start(time);
-			oscSub.start(time);
-			
-			osc.stop(time + this.beatDuration * 3.1);
-			oscSub.stop(time + this.beatDuration * 3.1);
-		}
-
-		advanceBeat() {
-			this.nextNoteTime += this.beatDuration;
-			
-			this.noteIndex++;
-			if (this.noteIndex >= 8) { // 8 beats per measure
-				this.noteIndex = 0;
-				this.currentChordIndex = (this.currentChordIndex + 1) % this.chords.length;
-			}
-		}
-	}
-
-	document.addEventListener('DOMContentLoaded', () => {
-		const toggleBtn = document.getElementById('audio-toggle');
-		const container = document.querySelector('.audio-control-container');
-		const tooltip = document.querySelector('.audio-tooltip');
-		
-		if (!toggleBtn || !container) return;
-
-		const synth = new AmbientSynth();
-
-		toggleBtn.addEventListener('click', () => {
-			if (synth.isPlaying) {
-				synth.stop();
-				toggleBtn.classList.remove('playing');
-				if (tooltip) tooltip.textContent = 'Activar Música';
-			} else {
-				synth.start();
-				toggleBtn.classList.add('playing');
-				if (tooltip) tooltip.textContent = 'Silenciar';
-			}
-		});
-	});
+    // If audio ends (shouldn't because loop=true), clear state
+    bgAudio.addEventListener('pause', () => setPlayingState(false));
+    bgAudio.addEventListener('play', () => setPlayingState(true));
+});
 </script>

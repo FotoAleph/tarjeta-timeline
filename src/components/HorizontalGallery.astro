@@ -58,6 +58,10 @@
 		<button class="gallery-dot" type="button" aria-label="Ir a la imagen 2"></button>
 		<button class="gallery-dot" type="button" aria-label="Ir a la imagen 3"></button>
 	</div>
+
+	<div class="vineta-container">
+		<img src="/assets/vineta.webp" class="vineta-image" alt="~">
+	</div>
 </section>
 
 <style>
@@ -66,39 +70,6 @@
 		padding: 80px 20px 60px;
 		box-sizing: border-box;
 		background: radial-gradient(circle at center, #0f2547 0%, #050d18 100%);
-	}
-
-	.gallery-header {
-		text-align: center;
-		padding: 0 20px 20px;
-		z-index: 10;
-	}
-
-	.gallery-title {
-		font-size: 2.5rem;
-		color: #ffffff;
-		font-family: var(--font-heading);
-		margin-top: 8px;
-		font-weight: 400;
-		letter-spacing: 1px;
-		background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
-
-	.gallery-decor {
-		display: flex;
-		justify-content: center;
-		gap: 8px;
-		margin-top: 12px;
-	}
-
-	.decor-dot {
-		width: 5px;
-		height: 5px;
-		background-color: var(--color-silver-400);
-		border-radius: 50%;
-		opacity: 0.7;
 	}
 
 	.gallery-carousel {
@@ -148,6 +119,19 @@
 	.slide-card.invert {
 		flex-direction: row-reverse;
 	}
+	.vineta-container {
+		max-width: 100%;
+		height: 6rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.vineta-image {
+		max-width: 100%;
+		height: auto;
+
+	}
+
 
 	.slide-img-frame {
 		position: relative;
@@ -234,6 +218,12 @@
 	.gallery-control:hover {
 		background: rgba(255, 255, 255, 0.22);
 		transform: scale(1.04);
+	}
+
+	.gallery-control:focus-visible,
+	.gallery-dot:focus-visible {
+		outline: 3px solid #ffffff;
+		outline-offset: 3px;
 	}
 
 	.gallery-dots {
