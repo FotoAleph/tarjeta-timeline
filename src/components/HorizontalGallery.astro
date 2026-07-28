@@ -10,7 +10,6 @@
 					<div class="slide-card">
 						<div class="slide-img-frame">
 							<img src="/assets/013.png" alt="Victoria en su sesión de fotos" class="slide-img" />
-							<div class="frame-border"></div>
 						</div>
 						<div class="slide-info">
 							<span class="slide-num">01 / 03</span>
@@ -29,7 +28,6 @@
 						</div>
 						<div class="slide-img-frame">
 							<img src="/assets/014.png" alt="Tiara de quinceañera" class="slide-img" />
-							<div class="frame-border"></div>
 						</div>
 					</div>
 				</div>
@@ -38,7 +36,6 @@
 					<div class="slide-card">
 						<div class="slide-img-frame">
 							<img src="/assets/015.png" alt="El pastel de 15 años" class="slide-img" />
-							<div class="frame-border"></div>
 						</div>
 						<div class="slide-info">
 							<span class="slide-num">03 / 03</span>
@@ -69,7 +66,9 @@
 		width: 100%;
 		padding: 80px 20px 60px;
 		box-sizing: border-box;
-		background: radial-gradient(circle at center, #0f2547 0%, #050d18 100%);
+		background:
+			radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.9) 0%, transparent 32%),
+			linear-gradient(135deg, #dff3ff 0%, #bfe4f7 52%, #dff4ff 100%);
 	}
 
 	.gallery-carousel {
@@ -84,9 +83,9 @@
 	.gallery-viewport {
 		overflow: hidden;
 		border-radius: 24px;
-		background: rgba(255, 255, 255, 0.04);
+		background: rgba(255, 255, 255, 0.5);
 		padding: 16px;
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+		box-shadow: 0 20px 45px rgba(41, 116, 154, 0.16);
 		min-height: 580px;
 		touch-action: pan-y;
 	}
@@ -139,10 +138,10 @@
 		height: 100%;
 		max-height: 600px;
 		min-height: 300px;
-		border-radius: 16px;
+		border-radius: 0;
 		overflow: hidden;
-		box-shadow: 0 25px 55px rgba(0, 0, 0, 0.5);
-		border: 1.5px solid rgba(255, 255, 255, 0.1);
+		box-shadow: none;
+		border: none;
 	}
 
 	.slide-img {
@@ -156,20 +155,9 @@
 		transform: scale(1.05);
 	}
 
-	.frame-border {
-		position: absolute;
-		top: 15px;
-		left: 15px;
-		right: 15px;
-		bottom: 15px;
-		border: 1.5px solid rgba(226, 232, 240, 0.4);
-		border-radius: 8px;
-		pointer-events: none;
-	}
-
 	.slide-info {
 		flex: 1 1 50%;
-		color: #ffffff;
+		color: var(--color-text-dark);
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -180,7 +168,7 @@
 		font-family: var(--font-body);
 		font-size: 0.9rem;
 		font-weight: 600;
-		color: var(--color-silver-300);
+		color: var(--color-blue-600);
 		letter-spacing: 2px;
 		margin-bottom: 15px;
 	}
@@ -188,23 +176,23 @@
 	.slide-info h3 {
 		font-family: var(--font-heading);
 		font-size: 2.2rem;
-		color: #ffffff;
+		color: var(--color-text-dark);
 		margin-bottom: 20px;
 		font-weight: 600;
-		text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+		text-shadow: none;
 	}
 
 	.slide-info p {
 		font-family: var(--font-body);
 		font-size: 1rem;
 		line-height: 1.6;
-		color: var(--color-silver-200);
+		color: var(--color-silver-600);
 	}
 
 	.gallery-control {
 		border: none;
-		background: rgba(255, 255, 255, 0.12);
-		color: #ffffff;
+		background: rgba(255, 255, 255, 0.7);
+		color: var(--color-text-dark);
 		width: 48px;
 		height: 48px;
 		border-radius: 50%;
@@ -216,13 +204,13 @@
 	}
 
 	.gallery-control:hover {
-		background: rgba(255, 255, 255, 0.22);
+		background: #ffffff;
 		transform: scale(1.04);
 	}
 
 	.gallery-control:focus-visible,
 	.gallery-dot:focus-visible {
-		outline: 3px solid #ffffff;
+		outline: 3px solid var(--color-blue-600);
 		outline-offset: 3px;
 	}
 
@@ -239,7 +227,7 @@
 		padding: 0;
 		border: none;
 		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.35);
+		background: rgba(18, 55, 84, 0.28);
 		cursor: pointer;
 		transition: transform 0.2s ease, background 0.2s ease;
 	}
