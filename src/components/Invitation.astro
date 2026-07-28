@@ -26,24 +26,30 @@
 .reveal-item {
     opacity: 0;
     transform: translateY(24px);
-    animation: revealUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 0.1s;
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0.1s);
+}
+
+.reveal-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .reveal-item--delay-1 {
-    animation-delay: 0.25s;
+    --reveal-delay: 0.25s;
 }
 
 .reveal-item--delay-2 {
-    animation-delay: 0.4s;
+    --reveal-delay: 0.4s;
 }
 
 .reveal-item--delay-3 {
-    animation-delay: 0.55s;
+    --reveal-delay: 0.55s;
 }
 
 .reveal-item--delay-4 {
-    animation-delay: 0.7s;
+    --reveal-delay: 0.7s;
 }
 
 .invtation-name__parents {
@@ -136,15 +142,30 @@ h3 {
     }
 
 
-    @keyframes revealUp {
-        from {
-            opacity: 0;
-            transform: translateY(24px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
 </style>
+
+<script>
+    const invitationSection = document.querySelector('.invitation-section');
+    const revealItems = Array.from(document.querySelectorAll('.reveal-item'));
+
+    if (invitationSection && revealItems.length > 0) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+
+                revealItems.forEach((item, index) => {
+                    window.setTimeout(() => {
+                        item.classList.add('is-visible');
+                    }, index * 140);
+                });
+
+                revealObserver.disconnect();
+            });
+        }, {
+            threshold: 0.25,
+            rootMargin: '0px 0px -10% 0px'
+        });
+
+        revealObserver.observe(invitationSection);
+    }
+</script>
